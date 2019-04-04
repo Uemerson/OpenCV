@@ -62,24 +62,34 @@
                                   <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblNaiveBart" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblNaiveHomer" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblIBkBart" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblIBkHomer" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblJ48Bart" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblJ48Homer" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblOneRBart" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblOneRHomer" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblJRipHomer" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblJRipBart" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblSVMHomer" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblSVMBart" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblJ48Bart" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblJ48Homer" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblOneRBart" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblOneRHomer" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblJRipBart" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblJRipHomer" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -105,7 +115,7 @@
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblImagem" pref="279" max="32767" attributes="0"/>
+                  <Component id="lblImagem" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -147,7 +157,22 @@
                           <Component id="lblOneRHomer" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblJRipHomer" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblIBkBart" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblSVMBart" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblIBkHomer" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblSVMHomer" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="12" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnExtrairCaracteristicas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnClassificar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -287,6 +312,36 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblJRipHomer">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel8">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="IBk"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblIBkBart">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblIBkHomer">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel9">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="SVM"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSVMBart">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSVMHomer">
       <Properties>
         <Property name="text" type="java.lang.String" value="0"/>
       </Properties>
