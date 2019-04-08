@@ -1,2 +1,2 @@
 # OpenCV
-Application created using JAVA, WEKA and OPENCV to recognize the characters Bart and Homer. Using algorithms J48, Naive Bayes, OneR, JRip and SVM
+Application created using JAVA, WEKA and OPENCV to recognize the characters Bart and Homer. Using algorithms J48, Naive Bayes, OneR, JRip, SVM and MultilayerPerceptron
