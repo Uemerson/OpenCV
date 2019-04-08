@@ -18,6 +18,7 @@ import javax.swing.JFileChooser;
 import opencv.ExtratorImagem;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.functions.LibSVM;
+import weka.classifiers.functions.MultilayerPerceptron;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.rules.JRip;
 import weka.classifiers.rules.OneR;
@@ -59,6 +60,9 @@ public class preditor extends javax.swing.JFrame {
         LibSVM svm = new LibSVM();
         svm.setKernelType(new SelectedTag(LibSVM.KERNELTYPE_LINEAR, LibSVM.TAGS_KERNELTYPE));
         svm.buildClassifier(instancias);
+        
+        MultilayerPerceptron multi = new MultilayerPerceptron();
+        multi.buildClassifier(instancias);
         
         //Criando novo registro
         Instance novo = new DenseInstance(instancias.numAttributes());
@@ -104,6 +108,12 @@ public class preditor extends javax.swing.JFrame {
         
         lblSVMBart.setText("Bart: " + df.format(resultadoSVM[0]));
         lblSVMHomer.setText("Homer: " + df.format(resultadoSVM[1]));
+        
+        //Previsão MultiLayerPerceptron
+        double resultadoMultiLayer[] = multi.distributionForInstance(novo);
+        
+        lblMultiLayerBart.setText("Bart: " + df.format(resultadoMultiLayer[0]));
+        lblMultiLayerHomer.setText("Homer: " + df.format(resultadoMultiLayer[1]));
     }
     
     public void carregaBaseWeka() throws Exception{
@@ -149,6 +159,9 @@ public class preditor extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         lblSVMBart = new javax.swing.JLabel();
         lblSVMHomer = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lblMultiLayerBart = new javax.swing.JLabel();
+        lblMultiLayerHomer = new javax.swing.JLabel();
 
         jLabel3.setText("jLabel3");
 
@@ -229,6 +242,12 @@ public class preditor extends javax.swing.JFrame {
 
         lblSVMHomer.setText("0");
 
+        jLabel10.setText("Multilayer");
+
+        lblMultiLayerBart.setText("0");
+
+        lblMultiLayerHomer.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -266,9 +285,6 @@ public class preditor extends javax.swing.JFrame {
                                     .addComponent(lblIBkHomer))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblSVMHomer)
-                                    .addComponent(lblSVMBart)
-                                    .addComponent(jLabel9)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel4)
@@ -283,7 +299,17 @@ public class preditor extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel7)
                                             .addComponent(lblJRipBart)
-                                            .addComponent(lblJRipHomer))))))
+                                            .addComponent(lblJRipHomer)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel9)
+                                            .addComponent(lblSVMBart)
+                                            .addComponent(lblSVMHomer))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblMultiLayerHomer)
+                                            .addComponent(lblMultiLayerBart)
+                                            .addComponent(jLabel10))))))
                         .addGap(0, 223, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtCaminhoImagem)
@@ -338,15 +364,18 @@ public class preditor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel9))
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblIBkBart)
-                            .addComponent(lblSVMBart))
+                            .addComponent(lblSVMBart)
+                            .addComponent(lblMultiLayerBart))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblIBkHomer)
-                            .addComponent(lblSVMHomer))
+                            .addComponent(lblSVMHomer)
+                            .addComponent(lblMultiLayerHomer))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnExtrairCaracteristicas)
@@ -444,6 +473,7 @@ public class preditor extends javax.swing.JFrame {
     private javax.swing.JButton btnExtrairCaracteristicas;
     private javax.swing.JButton btnSelecionarImagem;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -464,6 +494,8 @@ public class preditor extends javax.swing.JFrame {
     private javax.swing.JLabel lblJRipHomer;
     private javax.swing.JLabel lblLaranjaBart;
     private javax.swing.JLabel lblMarromHomer;
+    private javax.swing.JLabel lblMultiLayerBart;
+    private javax.swing.JLabel lblMultiLayerHomer;
     private javax.swing.JLabel lblNaiveBart;
     private javax.swing.JLabel lblNaiveHomer;
     private javax.swing.JLabel lblOneRBart;
