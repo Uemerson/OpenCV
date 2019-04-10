@@ -162,6 +162,7 @@ public class preditor extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         lblMultiLayerBart = new javax.swing.JLabel();
         lblMultiLayerHomer = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jLabel3.setText("jLabel3");
 
@@ -248,6 +249,8 @@ public class preditor extends javax.swing.JFrame {
 
         lblMultiLayerHomer.setText("0");
 
+        jButton1.setText("Treinar/Gerar Modelo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -259,10 +262,6 @@ public class preditor extends javax.swing.JFrame {
                         .addComponent(lblImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnExtrairCaracteristicas)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnClassificar))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
@@ -309,8 +308,14 @@ public class preditor extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblMultiLayerHomer)
                                             .addComponent(lblMultiLayerBart)
-                                            .addComponent(jLabel10))))))
-                        .addGap(0, 223, Short.MAX_VALUE))
+                                            .addComponent(jLabel10)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnExtrairCaracteristicas)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnClassificar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1)))
+                        .addGap(0, 110, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtCaminhoImagem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -379,7 +384,8 @@ public class preditor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnExtrairCaracteristicas)
-                            .addComponent(btnClassificar))))
+                            .addComponent(btnClassificar)
+                            .addComponent(jButton1))))
                 .addContainerGap())
         );
 
@@ -472,6 +478,7 @@ public class preditor extends javax.swing.JFrame {
     private javax.swing.JButton btnClassificar;
     private javax.swing.JButton btnExtrairCaracteristicas;
     private javax.swing.JButton btnSelecionarImagem;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
