@@ -8,7 +8,11 @@ package interfacegrafica;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,36 +38,36 @@ import weka.core.converters.ConverterUtils.DataSource;
  * @author UEMERSON
  */
 public class preditor extends javax.swing.JFrame {
-    
+
     //Variaveis
     private Instances instancias;
-    
+
     public preditor() {
         initComponents();
     }
-    
-    private void classifica() throws Exception{
+
+    private void classifica() throws Exception {
         NaiveBayes nb = new NaiveBayes();
         nb.buildClassifier(instancias);
-        
+
         J48 arvore = new J48();
         arvore.buildClassifier(instancias);
-        
+
         OneR oner = new OneR();
         JRip jrip = new JRip();
         oner.buildClassifier(instancias);
         jrip.buildClassifier(instancias);
-        
+
         IBk ibk = new IBk(3);
         ibk.buildClassifier(instancias);
-        
+
         LibSVM svm = new LibSVM();
         svm.setKernelType(new SelectedTag(LibSVM.KERNELTYPE_LINEAR, LibSVM.TAGS_KERNELTYPE));
         svm.buildClassifier(instancias);
-        
+
         MultilayerPerceptron multi = new MultilayerPerceptron();
         multi.buildClassifier(instancias);
-        
+
         //Criando novo registro
         Instance novo = new DenseInstance(instancias.numAttributes());
         novo.setDataset(instancias);
@@ -73,56 +77,56 @@ public class preditor extends javax.swing.JFrame {
         novo.setValue(3, Float.parseFloat(lblMarromHomer.getText()));
         novo.setValue(4, Float.parseFloat(lblAzulHomer.getText()));
         novo.setValue(5, Float.parseFloat(lblSapatoHomer.getText()));
-        
+
         //Previsão Naive Bayes
         DecimalFormat df = new DecimalFormat("#,###.0000");
         double resultadoNaive[] = nb.distributionForInstance(novo);
-        
+
         lblNaiveBart.setText("Bart: " + df.format(resultadoNaive[0]));
         lblNaiveHomer.setText("Homer: " + df.format(resultadoNaive[1]));
-        
+
         //Previsão J48
         double resultadoJ48[] = arvore.distributionForInstance(novo);
-        
+
         lblJ48Bart.setText("Bart: " + df.format(resultadoJ48[0]));
         lblJ48Homer.setText("Homer: " + df.format(resultadoJ48[1]));
-        
+
         //Previsão JRip
         double resultadoOneR[] = oner.distributionForInstance(novo);
         double resultadoJRip[] = jrip.distributionForInstance(novo);
-        
+
         lblOneRBart.setText("Bart: " + df.format(resultadoOneR[0]));
         lblOneRHomer.setText("Homer: " + df.format(resultadoOneR[1]));
-        
+
         lblJRipBart.setText("Bart: " + df.format(resultadoJRip[0]));
         lblJRipHomer.setText("Homer: " + df.format(resultadoJRip[1]));
-        
+
         //Previsão IBk
         double resultadoIBK[] = ibk.distributionForInstance(novo);
-        
+
         lblIBkBart.setText("Bart: " + df.format(resultadoIBK[0]));
         lblIBkHomer.setText("Homer: " + df.format(resultadoIBK[1]));
-        
+
         //Previsão LibSVM
         double resultadoSVM[] = svm.distributionForInstance(novo);
-        
+
         lblSVMBart.setText("Bart: " + df.format(resultadoSVM[0]));
         lblSVMHomer.setText("Homer: " + df.format(resultadoSVM[1]));
-        
+
         //Previsão MultiLayerPerceptron
         double resultadoMultiLayer[] = multi.distributionForInstance(novo);
-        
+
         lblMultiLayerBart.setText("Bart: " + df.format(resultadoMultiLayer[0]));
         lblMultiLayerHomer.setText("Homer: " + df.format(resultadoMultiLayer[1]));
     }
-    
-    public void carregaBaseWeka() throws Exception{
+
+    public void carregaBaseWeka() throws Exception {
         DataSource ds = new DataSource("src\\opencv\\caracteristicas.arff");
         instancias = ds.getDataSet();
         instancias.setClassIndex(instancias.numAttributes() - 1);               //Definindo a classe
         System.out.println(instancias.toString());
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -162,7 +166,8 @@ public class preditor extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         lblMultiLayerBart = new javax.swing.JLabel();
         lblMultiLayerHomer = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnTreinarGerarModelo = new javax.swing.JButton();
+        btnClassificarUsandoModelo = new javax.swing.JButton();
 
         jLabel3.setText("jLabel3");
 
@@ -249,7 +254,19 @@ public class preditor extends javax.swing.JFrame {
 
         lblMultiLayerHomer.setText("0");
 
-        jButton1.setText("Treinar/Gerar Modelo");
+        btnTreinarGerarModelo.setText("Treinar/Gerar Modelo");
+        btnTreinarGerarModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTreinarGerarModeloActionPerformed(evt);
+            }
+        });
+
+        btnClassificarUsandoModelo.setText("Classificar usando o modelo");
+        btnClassificarUsandoModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClassificarUsandoModeloActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -259,68 +276,75 @@ public class preditor extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(lblLaranjaBart)
-                                    .addComponent(lblAzulCalcao)
-                                    .addComponent(lblAzulSapato))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblSapatoHomer)
-                                    .addComponent(lblMarromHomer)
-                                    .addComponent(lblAzulHomer)
-                                    .addComponent(jLabel5)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(lblNaiveBart)
-                                    .addComponent(lblNaiveHomer)
-                                    .addComponent(jLabel8)
-                                    .addComponent(lblIBkBart)
-                                    .addComponent(lblIBkHomer))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(lblJ48Bart)
-                                            .addComponent(lblJ48Homer))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(lblOneRBart)
-                                            .addComponent(lblOneRHomer))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(lblJRipBart)
-                                            .addComponent(lblJRipHomer)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9)
-                                            .addComponent(lblSVMBart)
-                                            .addComponent(lblSVMHomer))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblMultiLayerHomer)
-                                            .addComponent(lblMultiLayerBart)
-                                            .addComponent(jLabel10)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnExtrairCaracteristicas)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnClassificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1)))
-                        .addGap(0, 110, Short.MAX_VALUE))
+                                .addComponent(btnClassificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnTreinarGerarModelo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnClassificarUsandoModelo)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtCaminhoImagem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSelecionarImagem)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtCaminhoImagem)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSelecionarImagem))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(lblLaranjaBart)
+                                            .addComponent(lblAzulCalcao)
+                                            .addComponent(lblAzulSapato))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblSapatoHomer)
+                                            .addComponent(lblMarromHomer)
+                                            .addComponent(lblAzulHomer)
+                                            .addComponent(jLabel5)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(lblNaiveBart)
+                                            .addComponent(lblNaiveHomer)
+                                            .addComponent(jLabel8)
+                                            .addComponent(lblIBkBart)
+                                            .addComponent(lblIBkHomer))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel4)
+                                                    .addComponent(lblJ48Bart)
+                                                    .addComponent(lblJ48Homer))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel6)
+                                                    .addComponent(lblOneRBart)
+                                                    .addComponent(lblOneRHomer))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel7)
+                                                    .addComponent(lblJRipBart)
+                                                    .addComponent(lblJRipHomer)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel9)
+                                                    .addComponent(lblSVMBart)
+                                                    .addComponent(lblSVMHomer))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblMultiLayerHomer)
+                                                    .addComponent(lblMultiLayerBart)
+                                                    .addComponent(jLabel10))))))
+                                .addGap(0, 259, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,7 +355,6 @@ public class preditor extends javax.swing.JFrame {
                     .addComponent(btnSelecionarImagem))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -380,13 +403,17 @@ public class preditor extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblIBkHomer)
                             .addComponent(lblSVMHomer)
-                            .addComponent(lblMultiLayerHomer))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnExtrairCaracteristicas)
-                            .addComponent(btnClassificar)
-                            .addComponent(jButton1))))
-                .addContainerGap())
+                            .addComponent(lblMultiLayerHomer)))
+                    .addComponent(lblImagem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExtrairCaracteristicas)
+                    .addComponent(btnClassificar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTreinarGerarModelo)
+                    .addComponent(btnClassificarUsandoModelo))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -422,9 +449,9 @@ public class preditor extends javax.swing.JFrame {
 
     private void btnExtrairCaracteristicasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtrairCaracteristicasActionPerformed
         ExtratorImagem extrator = new ExtratorImagem();
-        
-        float []caracteristicas = extrator.extrairCaracteristicasImagem(txtCaminhoImagem.getText());
-        
+
+        float[] caracteristicas = extrator.extrairCaracteristicasImagem(txtCaminhoImagem.getText());
+
         lblLaranjaBart.setText(Float.toString(caracteristicas[0]));
         lblAzulCalcao.setText(Float.toString(caracteristicas[1]));
         lblAzulSapato.setText(Float.toString(caracteristicas[2]));
@@ -441,6 +468,141 @@ public class preditor extends javax.swing.JFrame {
             Logger.getLogger(preditor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnClassificarActionPerformed
+
+    private void btnTreinarGerarModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreinarGerarModeloActionPerformed
+
+        try {
+            carregaBaseWeka();
+            J48 j48 = new J48();
+            j48.buildClassifier(instancias);
+
+            ObjectOutputStream classificador = new ObjectOutputStream(
+                    new FileOutputStream("src/opencv/arvore_treinada.model")
+            );
+
+            classificador.writeObject(j48);
+            classificador.flush();
+            classificador.close();
+        } catch (Exception ex) {
+            Logger.getLogger(preditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnTreinarGerarModeloActionPerformed
+
+    private void btnClassificarUsandoModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClassificarUsandoModeloActionPerformed
+
+        int quantidadeHomer = 0, quantidadeBart = 0;
+        final double rejeicao = 0.99;    //99%
+
+        try {
+            ObjectInputStream modeloJ48 = new ObjectInputStream(
+                    new FileInputStream("src/opencv/j48.model")
+            );
+            J48 j48 = (J48) modeloJ48.readObject();
+            modeloJ48.close();
+
+            ObjectInputStream modeloJrip = new ObjectInputStream(
+                    new FileInputStream("src/opencv/jrip.model")
+            );
+            JRip jrip = (JRip) modeloJrip.readObject();
+            modeloJrip.close();
+
+            ObjectInputStream modeloIbk = new ObjectInputStream(
+                    new FileInputStream("src/opencv/ibk3.model")
+            );
+            IBk ibk = (IBk) modeloIbk.readObject();
+            modeloIbk.close();
+
+            //Criando novo registro
+            carregaBaseWeka();
+            Instance novo = new DenseInstance(instancias.numAttributes());
+            novo.setDataset(instancias);
+            novo.setValue(0, Float.parseFloat(lblLaranjaBart.getText()));
+            novo.setValue(1, Float.parseFloat(lblAzulCalcao.getText()));
+            novo.setValue(2, Float.parseFloat(lblAzulSapato.getText()));
+            novo.setValue(3, Float.parseFloat(lblMarromHomer.getText()));
+            novo.setValue(4, Float.parseFloat(lblAzulHomer.getText()));
+            novo.setValue(5, Float.parseFloat(lblSapatoHomer.getText()));
+
+            //Previsão Naive Bayes
+            DecimalFormat df = new DecimalFormat("#,###.0000");
+            double resultado[] = j48.distributionForInstance(novo);
+            System.out.println("J48");
+            System.out.println("Bart: " + df.format(resultado[0]));
+            System.out.println("Homer: " + df.format(resultado[1]));
+
+            if (resultado[0] > resultado[1]) {
+                if (resultado[0] > rejeicao) {
+                    quantidadeBart++;
+                }
+            } else if (resultado[1] > resultado[0]) {
+                if (resultado[1] > rejeicao) {
+                    quantidadeHomer++;
+                }
+            } else {
+                if (resultado[0] > rejeicao && resultado[1] > rejeicao) {
+                    quantidadeBart++;
+                    quantidadeHomer++;
+                }
+            }
+
+            resultado = jrip.distributionForInstance(novo);
+            System.out.println("JRIP");
+            System.out.println("Bart: " + df.format(resultado[0]));
+            System.out.println("Homer: " + df.format(resultado[1]));
+
+            if (resultado[0] > resultado[1]) {
+                if (resultado[0] > rejeicao) {
+                    quantidadeBart++;
+                }
+            } else if (resultado[1] > resultado[0]) {
+                if (resultado[1] > rejeicao) {
+                    quantidadeHomer++;
+                }
+            } else {
+                if (resultado[0] > rejeicao && resultado[1] > rejeicao) {
+                    quantidadeBart++;
+                    quantidadeHomer++;
+                }
+            }
+
+            resultado = ibk.distributionForInstance(novo);
+            System.out.println("IBk3");
+            System.out.println("Bart: " + df.format(resultado[0]));
+            System.out.println("Homer: " + df.format(resultado[1]));
+
+            if (resultado[0] > resultado[1]) {
+                if (resultado[0] > rejeicao) {
+                    quantidadeBart++;
+                }
+            } else if (resultado[1] > resultado[0]) {
+                if (resultado[1] > rejeicao) {
+                    quantidadeHomer++;
+                }
+            } else {
+                if (resultado[0] > rejeicao && resultado[1] > rejeicao) {
+                    quantidadeBart++;
+                    quantidadeHomer++;
+                }
+            }
+
+            System.out.println("Quantidade Bart: " + quantidadeBart);
+            System.out.println("Quantidade Homer: " + quantidadeHomer);
+
+            if (quantidadeBart == 0 && quantidadeHomer == 0) {
+                System.out.println("A instância foi rejeitada");
+            } else if (quantidadeBart > quantidadeHomer) {
+                System.out.println("A classe é Bart");
+            } else {
+                System.out.println("A classe é Homer");
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(preditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(preditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(preditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnClassificarUsandoModeloActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -476,9 +638,10 @@ public class preditor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClassificar;
+    private javax.swing.JButton btnClassificarUsandoModelo;
     private javax.swing.JButton btnExtrairCaracteristicas;
     private javax.swing.JButton btnSelecionarImagem;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnTreinarGerarModelo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
